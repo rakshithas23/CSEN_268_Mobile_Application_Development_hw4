@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import '../bloc/authentication/authentication_bloc.dart';
@@ -9,10 +10,15 @@ import '../screens/detail_page.dart';
 import '../screens/profile_page.dart';
 
 class GoRouterRefreshStream extends ChangeNotifier {
+  late final StreamSubscription _subscription;
+
   GoRouterRefreshStream(Stream stream) {
-    stream.listen((_) {
-      notifyListeners();
-    });
+       _subscription = stream.listen((_) => notifyListeners());
+  }
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 }
 
@@ -42,7 +48,7 @@ GoRouter createRouter(AuthenticationBloc authBloc) {
         pageBuilder: (context, state, child) =>
             NoTransitionPage(child: Scaffold(body: child)),
         routes: [
-          GoRoute(path: '/', name: 'home', redirect: (_, __) => '/byAuthor'),
+          GoRoute(path: '/', name: 'home', redirect: (context, state) => '/byAuthor'),
           GoRoute(
             path: '/byAuthor',
             name: 'byAuthor',

@@ -4,23 +4,20 @@ import 'bloc/authentication/authentication_bloc.dart';
 import 'router/app_router.dart';
 
 void main() {
-  final authBloc = AuthenticationBloc();
-
   runApp(
     BlocProvider(
-      create: (_) => authBloc,
-      child: MyApp(authBloc: authBloc),
+      create: (_) => AuthenticationBloc(),
+      child: const MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  final AuthenticationBloc authBloc;
-
-  const MyApp({super.key, required this.authBloc});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authBloc = context.read<AuthenticationBloc>();
     final router = createRouter(authBloc);
 
     return MaterialApp.router(

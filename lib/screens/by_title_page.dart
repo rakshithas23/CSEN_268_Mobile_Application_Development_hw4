@@ -54,7 +54,7 @@ class ByTitlePage extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               itemCount: _books.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 8),
+              separatorBuilder: (context, state) => const SizedBox(height: 8),
               itemBuilder: (context, index) {
                 final book = _books[index];
                 return InkWell(

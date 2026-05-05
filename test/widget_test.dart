@@ -14,15 +14,16 @@ import 'package:book_club_hw4/bloc/authentication/authentication_bloc.dart';
 void main() {
   testWidgets('App loads test', (WidgetTester tester) async {
     final authBloc = AuthenticationBloc();
+    addTearDown(() => authBloc.close());
 
     await tester.pumpWidget(
-      BlocProvider(
+      BlocProvider<AuthenticationBloc>(
         create: (_) => authBloc,
-        child: MyApp(authBloc: authBloc),
+        child: const MyApp(),
       ),
     );
 
-    // Since your app starts with redirect → login
+    await tester.pumpAndSettle();
     expect(find.text('Login'), findsOneWidget);
   });
 }
